@@ -8,6 +8,7 @@ import ContactText from "./ContactText";
 const Contacts = () => {
   return (
     <div
+      name="Contacts"
       className="relative bg-cover bg-center h-screen md:h-[400px]"
       style={{ backgroundImage: `url(${newImage})` }}
     >

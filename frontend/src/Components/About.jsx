@@ -3,7 +3,10 @@ import React from "react";
 const About = () => {
   return (
     <>
-      <div className="max-w-screen-2xl  container mx-auto px-4 md:px-20 mb-10 space-y-2">
+      <div
+        name="About"
+        className="max-w-screen-2xl  container mx-auto px-4 md:px-20 mb-10 space-y-2"
+      >
         <h2 className="text-3xl font-bold">About</h2>
         <p className=" text-sm text-justify ">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus
@@ -40,14 +43,16 @@ const About = () => {
           <li>Version control Git and Github</li>
           <li>Content Writing</li>
         </ul>
-        <br/>
-        <h2 className="font-semibold text-[#55e6a5]">Achievements and Awards</h2>
+        <br />
+        <h2 className="font-semibold text-[#55e6a5]">
+          Achievements and Awards
+        </h2>
         <ul className="space-y-1 text-base">
           <li>First in Quiz</li>
           <li>Topper at college</li>
         </ul>
-        <br/>
-        <hr/>
+        <br />
+        <hr />
       </div>
     </>
   );

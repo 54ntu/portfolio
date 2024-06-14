@@ -15,7 +15,10 @@ const Portfolio = () => {
     },
   ];
   return (
-    <div className=" max-w-screen-2xl container mx-auto px-4 md:px-20 my-10 space-y-2 ">
+    <div
+      name="Portfolio"
+      className=" max-w-screen-2xl container mx-auto px-4 md:px-20 my-10 space-y-2 "
+    >
       <h1 className="text-2xl font-bold">Portfolio</h1>
       <h2 className="underline font-semibold">Featured Projects</h2>
       <br />
@@ -23,7 +26,10 @@ const Portfolio = () => {
       <div className=" flex flex-wrap md:grid md:grid-cols-4 md:space-x-20 gap-10 justify-center">
         {cardItems.map((item) => {
           return (
-            <div key={item.id}  className="bg-white w-[300px] h-[300px] md:w-[300px] md:h-[300px] text-center hover:scale-110 duration-300 rounded-3xl space-y-2 shadow-2xl hover:cursor-pointer flex flex-col items-center justify-center">
+            <div
+              key={item.id}
+              className="bg-white w-[300px] h-[300px] md:w-[300px] md:h-[300px] text-center hover:scale-110 duration-300 rounded-3xl space-y-2 shadow-2xl hover:cursor-pointer flex flex-col items-center justify-center"
+            >
               <img
                 src={item.image}
                 alt=""
@@ -45,6 +51,9 @@ const Portfolio = () => {
           );
         })}
       </div>
+      <br />
+      <br />
+      <hr />
     </div>
   );
 };

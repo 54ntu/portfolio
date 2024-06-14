@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { CiMenuBurger } from "react-icons/ci";
 import { IoCloseSharp } from "react-icons/io5";
+import {Link} from "react-scroll"
 
 function Navbar() {
   const [IsOpenMenu, setisOpenMenu] = useState(false);
@@ -41,7 +42,15 @@ function Navbar() {
                   className="hover:scale-105 duration-200 cursor-pointer"
                   key={id}
                 >
-                  {item.text}
+                  <Link
+                    to={item.text}
+                    activeClass="active"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                  >
+                    {item.text}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -56,14 +65,23 @@ function Navbar() {
 
         {/* mobile view menu  */}
         {IsOpenMenu && (
-          <div>
+          <div className="bg-white">
             <ul className="md:hidden flex flex-col h-screen items-center justify-center gap-2 font-semibold">
               {menuItems.map((item, id) => (
                 <li
                   className="hover:scale-105 duration-200 cursor-pointer "
                   key={id}
                 >
-                  {item.text}
+                  <Link
+                    onClick={() => setisOpenMenu(!IsOpenMenu)}
+                    to={item.text}
+                    activeClass="active"
+                    smooth={true}
+                    offset={50}
+                    duration={500}
+                  >
+                    {item.text}
+                  </Link>
                 </li>
               ))}
             </ul>
