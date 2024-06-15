@@ -6,7 +6,22 @@
   <li>About <p>This section illustrates about my short and attractive introduction, educational background, skills && expertise, trainings which i have done. This aims to give important messages to the clients or employer</p></li>
   <li>Porfolio <p>This section gives the information about the projects that i have done. </p></li>
   <li>Contacts <p>If employer or clients find my portfolio impressive and wants to work with me, they can send me message through this contacts section.  </p></li>
-  <li>blogs <p>Through this section I expect to share various blogs or thoughts which i felt good to keep in the portfolio website and valuable for the others. </p></li>
-  
-  
+  <li>blogs <p>Through this section I expect to share various blogs or thoughts which i felt good to keep in the portfolio website and valuable for the others. </p></li>  
 </ul>
+
+## Getting Started :tada:
+These instructions will help you set up and run the project on your local machine. :computer:
+### Prerequisites :memo:
+You need to have the following software installed:
+- Node.js :package:
+- npm :package:
+
+
+### Installation :hammer_and_wrench:
+Clone the repository and install the dependencies:
+
+```bash
+
+
+
+```
