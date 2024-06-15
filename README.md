@@ -28,3 +28,8 @@ npm install // this will install all the dependencies
 npm run dev or npm start
 
 ```
+
+# backend Overview 🧐
+<p>In backend i have used Node.js, Mongodb,Express js, Multer, cloudinary,mongoose </p>
+
+
