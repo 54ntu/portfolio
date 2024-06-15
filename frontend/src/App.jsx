@@ -1,26 +1,22 @@
 import { useState } from 'react'
 import './App.css'
-import Navbar from './Components/Navbar'
-import Home from './Components/Home'
-import About from './Components/About'
-import Portfolio from './Components/Portfolio'
-import Blogs from './Components/Blogs'
-import Footer from './Components/Footer'
-import Contacts from './Components/Contacts'
+
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
+import AdminPanel from './AdminComponent/AdminPanel';
+import Appcomponent from './Appcomponent1';
 
 function App() {
 
   return (
-    <>
-    <Navbar/>
-     <Home/>
-     <About/>
-      <Portfolio/>
-      <Blogs/>  
-      <Contacts/>
-      <Footer/>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path='/' element={ <Appcomponent/> }/>
+        <Route path='/admin' element={ <AdminPanel/> }/>
+       
+      </Routes>
+    </Router>
+  );
 }
 
 export default App
