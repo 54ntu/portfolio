@@ -21,7 +21,10 @@ You need to have the following software installed:
 Clone the repository and install the dependencies:
 
 ```bash
-
-
+git clone git@github.com:54ntu/portfolio.git
+//cd projectdir
+cd portfolio
+npm install // this will install all the dependencies
+npm run dev or npm start
 
 ```
