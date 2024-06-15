@@ -17,10 +17,10 @@ const Portfolio = () => {
   return (
     <div
       name="Portfolio"
-      className=" max-w-screen-2xl container mx-auto px-4 md:px-20 my-10 space-y-2 "
+      className="  max-w-screen-2xl container mx-auto px-4 md:px-20 my-10  "
     >
-      <h1 className="text-2xl font-bold">Portfolio</h1>
-      <h2 className="underline font-semibold">Featured Projects</h2>
+      <h1 className="text-2xl font-bold py-5">Portfolio</h1>
+      <h2 className="underline font-semibold mb-10">Featured Projects</h2>
       <br />
 
       <div className=" flex flex-wrap md:grid md:grid-cols-4 md:space-x-20 gap-10 justify-center">
