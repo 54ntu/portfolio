@@ -16,7 +16,7 @@ function Home() {
     <>
       <div
         name="Home" // Section name should match menuItems text in Navbar
-        className="max-w-screen-2xl bg-white container mx-auto px-4 md:px-28 md:py-32 my-20"
+        className="max-w-screen-2xl bg-white container mx-auto px-4 md:px-28 md:py-20 my-20"
       >
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 mt-12 md:mt-24 space-y-2 md:order-1 order-2">
