@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require("cors");
+const cookieParser = require('cookie-parser')
 const { adminRouter } = require('./routes/admin.routes');
 const { frontendRouter } = require('./routes/frontend.routes');
 const app = express();
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
 app.use(cors())
+app.use(cookieParser())
 
 
 
