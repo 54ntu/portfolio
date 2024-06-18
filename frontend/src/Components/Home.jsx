@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoLogoNodejs } from "react-icons/io5";
 import { FaPython } from "react-icons/fa";
 import { SiExpress } from "react-icons/si";
@@ -8,10 +8,25 @@ import { FaFacebook } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
-import {ReactTyped} from "react-typed"; // Ensure correct import
+import { ReactTyped } from "react-typed"; // Ensure correct import
 import myimage from "../assets/test.jpeg";
+import axios from "axios";
 
 function Home() {
+  const [datas, setDatas] = useState([]);
+  const getHomeData = async () => {
+    const response = await axios.get(
+      "http://localhost:8000/api/v1/frontend/gethome"
+    );
+
+    console.log(response.data)
+    setDatas(response.data);
+  };
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
   return (
     <>
       <div
@@ -36,12 +51,16 @@ function Home() {
               />
             </div>
             <br />
-            <p className="text-xs text-justify md:text-base">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor,
-              similique ipsa doloribus excepturi rem repellendus voluptatem
-              minima magnam soluta possimus suscipit hic, beatae accusantium?
-              Sunt voluptates enim omnis deserunt optio?
-            </p>
+            {/* {
+              datas.map((intro)=>(
+                <h1>{intro.introduction}</h1>
+              ))
+            } */}
+              <p className="text-xs text-justify md:text-base">
+
+              hello i am a backend engineer
+              </p>
+
             <br />
             {/* Social media links */}
             <div className="flex justify-between">
@@ -82,7 +101,6 @@ function Home() {
             />
           </div>
         </div>
-
       </div>
       <hr />
     </>

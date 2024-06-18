@@ -1,8 +1,13 @@
 const { Admin } = require("../models/admin.models");
 const { ApiError } = require("../utils/ApiError");
 const { Apiresponse } = require("../utils/ApiResponse");
+const { uploadOnCloudinary } = require("../utils/cloudinary");
 const jwt = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require("../utils/passwordHash");
+const { Home } = require("../models/homepages.models");
+const { About } = require("../models/about.models");
+const { Portfolio } = require("../models/portfolio.models");
+const { Blog } = require("../models/blog.models");
 
 const registerAdmin = async (req, res) => {
   //todos to get the data from the user
@@ -87,8 +92,8 @@ const loginAdmin = async (req, res) => {
   );
   console.log(isPasswordMatched);
 
-  if(!isPasswordMatched){
-    throw new ApiError(401,"password doesnot matched")
+  if (!isPasswordMatched) {
+    throw new ApiError(401, "password doesnot matched");
   }
 
   //generate access token and refresh token
@@ -194,39 +199,205 @@ const updatePassword = async (req, res) => {
     {
       new: true,
     }
-  ).select(" -password -refreshToken")
+  ).select(" -password -refreshToken");
   // console.log(updatedPass)
 
-  if(!updatedPass){
-    throw new ApiError(500,"password updation failed!!!")
+  if (!updatedPass) {
+    throw new ApiError(500, "password updation failed!!!");
   }
 
-  return res.status(200)
-  .json(new Apiresponse(200,updatedPass, "password changed successfully"))
-
+  return res
+    .status(200)
+    .json(new Apiresponse(200, updatedPass, "password changed successfully"));
 };
-
-
-
-
 
 const HomePageData = async (req, res) => {
   //todos to save the data entered by admin into the respective database
-  
+  //get the data from the req.body
+  //get the localfilepath of respective images from the req.files
+  //verify the filepath
+  //uploadoncloudinary
+  //check the response from the cloudinary
+  //if everything is ok then save the data and send the response
+  const { introduction, facebookurl, githuburl, linkedInurl, instagramurl } =
+    req.body;
+  if (!introduction) {
+    throw new ApiError(400, " Introduction is required!");
+  }
 
+  const profileImageLocalFilePath = req.files?.profile[0].path;
+  if (!profileImageLocalFilePath) {
+    throw new ApiError(400, "profile image localfile path is not provided");
+  }
+
+  const profileImage = await uploadOnCloudinary(profileImageLocalFilePath);
+  // console.log(profileImage);
+  if (!profileImage) {
+    throw new ApiError(500, "profile image is required!!");
+  }
+
+  const homeDatas = await Home.create({
+    introduction,
+    profile_img: {
+      url: profileImage?.url,
+      public_id: profileImage?.public_id,
+    },
+    faceBookurl: facebookurl,
+    githuburl: githuburl,
+    linkedIn: linkedInurl,
+    instagramUrl: instagramurl,
+  });
+
+  // console.log(homeDatas);
+
+  if (!homeDatas) {
+    throw new ApiError(500, "error while creating home data");
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, homeDatas, "data added successfully!"));
 };
 
 const updateHomePageData = async (req, res) => {};
 
-const AboutData = async (req, res) => {};
+const AboutData = async (req, res) => {
+  const {
+    introduction,
+    degree_name,
+    completed_date,
+    institution_name,
+    address,
+    skill_name,
+    awards_title,
+    awards_received_on,
+  } = req.body;
+
+  if (
+    !(
+      introduction &&
+      degree_name &&
+      completed_date &&
+      institution_name &&
+      address &&
+      skill_name &&
+      awards_title &&
+      awards_received_on
+    )
+  ) {
+    throw new ApiError(400, "all fields are required!");
+  }
+
+  const addAboutData = await About.create({
+    introduction,
+    degree_name,
+    completed_date,
+    institution_name,
+    address,
+    skill_name,
+    awards_received_on,
+    awards_title,
+  });
+
+  if (!addAboutData) {
+    throw new ApiError(500, "error creating objets ");
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, addAboutData, "data added successfully!"));
+};
 
 const updateAboutData = async (req, res) => {};
 
-const PortfolioData = async (req, res) => {};
+const PortfolioData = async (req, res) => {
+  //get the data from the req.body
+  //check if empty or not
+  //get the project_img localpath from the multer
+  //if the localpath is there then upload that image into the cloudinary
+  //get the response from the cloudinary
+  //if response obtained then save the data into the database
+  //check if data is saved or not
+  //if saved then return response
+  //else throw error
+
+  const { project_name, description, project_link, source_code_link } =
+    req.body;
+
+  if (!(project_link && project_name && description && source_code_link)) {
+    throw new ApiError(400, "all fields are required!");
+  }
+
+  // console.log(req.file?.path)
+  const projectImageFilepath = req.file?.path;
+  // console.log(projectImageFilepath)
+  if (!projectImageFilepath) {
+    throw new ApiError(400, "project image local file path is required");
+  }
+
+  const projectimage = await uploadOnCloudinary(projectImageFilepath);
+  // console.log(projectimage)
+  if (!projectimage) {
+    throw new ApiError(400, "cloudinary error");
+  }
+
+  const addPortfolioData = await Portfolio.create({
+    project_name,
+    project_link,
+    description,
+    source_code_link,
+    project_img: {
+      url: projectimage.url,
+      public_id: projectimage.public_id,
+    },
+  });
+
+  if (!addPortfolioData) {
+    throw new ApiError(500, "error while adding data into db");
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, addPortfolioData, "data added successfully!"));
+};
 
 const updatePortfolioData = async (req, res) => {};
 
-const BlogData = async (req, res) => {};
+const BlogData = async (req, res) => {
+  const { title, description } = req.body;
+  if (!(title && description)) {
+    throw new ApiError(400, "title and descriptions are required!");
+  }
+
+  const blogImagePath = req.file?.path;
+  // console.log(blogImagePath)
+  if (!blogImagePath) {
+    throw new ApiError(400, "blogImagepath is required");
+  }
+
+  const blogImage = await uploadOnCloudinary(blogImagePath);
+  if (!blogImage) {
+    throw new ApiError(400, "blogimage is required!");
+  }
+
+  const addBlogData = await Blog.create({
+    title,
+    description,
+    author: req.user?._id,
+    blog_img: {
+      url: blogImage.url,
+      public_id: blogImage.public_id,
+    },
+  });
+
+  if (!addBlogData) {
+    throw new ApiError(500, "error adding blog data!");
+  }
+
+  return res
+    .status(200)
+    .json(new Apiresponse(200, addBlogData, "blog posted successfully!"));
+};
 
 const updateBlogData = async (req, res) => {};
 

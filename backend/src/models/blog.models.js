@@ -7,8 +7,14 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     blog_img: {
-      type: String, //url will be obtained from the cloudinary
-      required: true,
+      url:{
+        type:String,
+        required:true
+      },
+      public_id:{
+        type:String,
+        required:true
+      }
     },
     description: {
       type: String,

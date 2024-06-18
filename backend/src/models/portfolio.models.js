@@ -3,8 +3,14 @@ const mongoose = require("mongoose");
 const portfolioSchema = new mongoose.Schema(
   {
     project_img: {
-      type: String,
-      required: true,
+      url:{
+        type:String,
+        required:true
+      },
+      public_id:{
+        type:String,
+        required:true
+      }
     },
     project_name: {
       type: String,
@@ -26,5 +32,5 @@ const portfolioSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Portfolio = mongoose.Model("Portfolio", portfolioSchema);
+const Portfolio = mongoose.model("Portfolio", portfolioSchema);
 module.exports = { Portfolio };

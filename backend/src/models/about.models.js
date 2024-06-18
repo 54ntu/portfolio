@@ -10,7 +10,7 @@ const aboutSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    completed_data: {
+    completed_date: {
       type: String,
       required: true,
     },
