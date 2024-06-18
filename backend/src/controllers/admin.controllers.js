@@ -87,11 +87,16 @@ const loginAdmin = async (req, res) => {
   );
   console.log(isPasswordMatched);
 
+  if(!isPasswordMatched){
+    throw new ApiError(401,"password doesnot matched")
+  }
+
   //generate access token and refresh token
 
   const accessToken = await jwt.sign(
     {
       _id: isUserExist._id,
+      Role: isUserExist.Role,
       username: isUserExist.username,
     },
     process.env.ACCESS_TOKEN_SECRET,
@@ -122,7 +127,7 @@ const loginAdmin = async (req, res) => {
   isUserExist.save();
 
   const loggedInUser = await Admin.findById(isUserExist._id).select(
-    " -password -refreshToken"
+    " -password -refreshToken -Role"
   );
 
   const options = {
@@ -148,11 +153,67 @@ const loginAdmin = async (req, res) => {
     );
 };
 
+const updatePassword = async (req, res) => {
+  // console.log("req.user : " , req.user?._id);
+  //get the current password and new password
+  //check if current password and new password are same
+  //query database using id
+  //then update the data
+  //if success then send the response
+  //else throw error
 
-const updateAdmin = async (req, res) => {};
+  const { currentPassword, newPassword } = req.body;
+  if (!currentPassword && !newPassword) {
+    throw new ApiError(400, "current Password and new password required!!!");
+  }
+
+  const hashedpassword = await hashPassword(newPassword);
+  // console.log(hashedpassword)
+
+  const userdata = await Admin.findById(req.user?._id);
+  // console.log(userdata)
+  if (!userdata) {
+    throw new ApiError(404, "user not found!!!");
+  }
+  const isPasswordMatch = await comparePassword(
+    currentPassword,
+    userdata.password
+  );
+  // console.log(isPasswordMatch);
+  if (!isPasswordMatch) {
+    throw new ApiError(401, "current password doesnot match!!!");
+  }
+
+  const updatedPass = await Admin.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        password: hashedpassword, //this hashedpassword is a new password
+      },
+    },
+    {
+      new: true,
+    }
+  ).select(" -password -refreshToken")
+  // console.log(updatedPass)
+
+  if(!updatedPass){
+    throw new ApiError(500,"password updation failed!!!")
+  }
+
+  return res.status(200)
+  .json(new Apiresponse(200,updatedPass, "password changed successfully"))
+
+};
+
+
+
+
 
 const HomePageData = async (req, res) => {
   //todos to save the data entered by admin into the respective database
+  
+
 };
 
 const updateHomePageData = async (req, res) => {};
@@ -184,7 +245,7 @@ module.exports = {
   BlogData,
   ContactData,
   myContactdata,
-  updateAdmin,
+  updatePassword,
   updateHomePageData,
   updateAboutData,
   updatePortfolioData,

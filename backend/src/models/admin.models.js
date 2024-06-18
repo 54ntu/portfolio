@@ -16,6 +16,12 @@ const adminSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    Role:{
+        type:String,
+        default:"Admin"
+
+    },
+
     refreshToken:{
         type:String,
     
