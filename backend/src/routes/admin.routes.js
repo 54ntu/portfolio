@@ -7,6 +7,8 @@ const {
   PortfolioData,
   AboutData,
   BlogData,
+  UserMessage,
+  myContactdata,
 } = require("../controllers/admin.controllers");
 const { verifyJwt } = require("../middlewares/authmiddlewares");
 const { upload } = require("../middlewares/multer.middlewares");
@@ -34,5 +36,9 @@ adminRouter
 adminRouter
   .route("/blogdata")
   .post(verifyJwt, upload.single("blogImage"), BlogData);
+adminRouter.route("/userMessage").get(verifyJwt, UserMessage);
+
+
+adminRouter.route("/addcontact").post(myContactdata);
 
 module.exports = { adminRouter };

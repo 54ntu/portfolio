@@ -8,6 +8,8 @@ const { Home } = require("../models/homepages.models");
 const { About } = require("../models/about.models");
 const { Portfolio } = require("../models/portfolio.models");
 const { Blog } = require("../models/blog.models");
+const { Message } = require("../models/message.models");
+const { Mycontact } = require("../models/mycontacts.models");
 
 const registerAdmin = async (req, res) => {
   //todos to get the data from the user
@@ -401,9 +403,44 @@ const BlogData = async (req, res) => {
 
 const updateBlogData = async (req, res) => {};
 
-const ContactData = async (req, res) => {};
+const UserMessage = async (req, res) => {
+  const response = await Message.find();
+  // console.log(response)
+  if (!response) {
+    throw new ApiError(404, "messages not found!");
+  }
 
-const myContactdata = async (req, res) => {};
+  return res
+    .status(200)
+    .json(new Apiresponse(200, response, "messages fetched successfully!"));
+};
+
+const myContactdata = async (req, res) => {
+  const { phone, address, email } = req.body;
+  if (!(phone && address && email)) {
+    throw new ApiError(400, "all fields are required!");
+  }
+
+  const contactDetails = await Mycontact.create({
+    phone,
+    address,
+    email,
+  });
+
+  if (!contactDetails) {
+    throw new ApiError(500, "error while addding contact details!!");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new Apiresponse(
+        200,
+        contactDetails,
+        "contact details are added successfully!!"
+      )
+    );
+};
 
 const updateContactData = async (req, res) => {};
 
@@ -414,7 +451,7 @@ module.exports = {
   AboutData,
   PortfolioData,
   BlogData,
-  ContactData,
+  UserMessage,
   myContactdata,
   updatePassword,
   updateHomePageData,
