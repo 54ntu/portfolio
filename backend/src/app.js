@@ -9,8 +9,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
-app.use(cors())
+
 app.use(cookieParser())
+// Define your allowed origins
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your frontend URL
+    credentials: true, // Allow credentials (cookies)
+  })
+);
+
 
 
 

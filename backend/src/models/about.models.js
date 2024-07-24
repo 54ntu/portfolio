@@ -22,10 +22,10 @@ const aboutSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    skill_name: {
+    skill_name: [{
       type: String,
       required: true,
-    },
+    }],
     awards_title: {
       type: String,
       required: true,
